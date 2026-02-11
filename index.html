@@ -16,12 +16,15 @@
     <style>
         .active-q { border: 2px solid #1d4ed8; background-color: #dbeafe; }
         .answered-q { background-color: #10b981; color: white; }
+        #nav-grid { max-height: 400px; overflow-y: auto; }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        #nav-grid::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="bg-gray-50 font-sans text-gray-900">
 
     <div id="landing-page" class="min-h-screen flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full border-t-4 border-blue-700">
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl max-w-md w-full border-t-4 border-blue-700">
             <h1 class="text-3xl font-extrabold text-blue-800 mb-2 text-center">D-Maths Live</h1>
             <p class="text-center text-gray-600 mb-6 font-semibold">U.T.M.E Mathematics Mock</p>
             
@@ -38,50 +41,50 @@
                     <label class="block text-sm font-bold text-gray-700">Email Address</label>
                     <input type="email" id="userEmail" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                 </div>
-                <div class="bg-blue-50 p-3 rounded text-xs text-blue-800 italic">
-                    Note: Changing tabs or minimizing this browser during the exam will cause automatic submission.
+                <div class="bg-red-50 p-3 rounded text-xs text-red-800 font-medium border border-red-100">
+                    ⚠️ WARNING: Switching tabs or minimizing the browser will trigger IMMEDIATE auto-submission.
                 </div>
                 <button type="submit" class="w-full bg-blue-700 text-white py-4 rounded-lg font-bold text-lg hover:bg-blue-800 transition shadow-lg">
-                    LOG IN & START TEST
+                    START EXAMINATION
                 </button>
             </form>
         </div>
     </div>
 
     <div id="exam-page" class="hidden min-h-screen flex flex-col">
-        <header class="bg-white border-b p-4 flex justify-between items-center sticky top-0 z-10 shadow-sm">
-            <div>
-                <h2 class="text-xl font-bold text-blue-900">D-Maths Mock</h2>
-                <p id="displayStudent" class="text-sm text-gray-500 font-medium"></p>
+        <header class="bg-white border-b p-3 md:p-4 flex justify-between items-center sticky top-0 z-10 shadow-sm">
+            <div class="truncate mr-2">
+                <h2 class="text-lg md:text-xl font-bold text-blue-900">D-Maths Mock</h2>
+                <p id="displayStudent" class="text-xs md:text-sm text-gray-500 font-medium truncate"></p>
             </div>
-            <div id="timer" class="text-2xl font-mono font-bold bg-red-100 text-red-600 px-6 py-2 rounded-full border-2 border-red-200">
+            <div id="timer" class="text-xl md:text-2xl font-mono font-bold bg-red-100 text-red-600 px-4 md:px-6 py-2 rounded-full border-2 border-red-200">
                 40:00
             </div>
         </header>
 
-        <main class="flex-1 flex flex-col lg:flex-row p-4 gap-6 max-w-7xl mx-auto w-full">
-            <div class="lg:w-2/3 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                <div class="flex items-center justify-between mb-6 border-b pb-4">
-                    <span class="bg-blue-100 text-blue-700 font-bold px-4 py-1 rounded">Question <span id="qNumDisplay">1</span> of 40</span>
+        <main class="flex-1 flex flex-col lg:flex-row p-3 md:p-4 gap-4 md:gap-6 max-w-7xl mx-auto w-full">
+            <div class="lg:w-2/3 bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-200">
+                <div class="flex items-center justify-between mb-4 md:mb-6 border-b pb-4">
+                    <span class="bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded text-sm md:text-base">Question <span id="qNumDisplay">1</span> of 40</span>
                 </div>
 
-                <div class="mb-8">
-                    <p id="qText" class="text-xl text-gray-800 leading-relaxed mb-6 font-medium"></p>
+                <div class="mb-6">
+                    <p id="qText" class="text-lg md:text-xl text-gray-800 leading-relaxed mb-6 font-medium"></p>
                     <div id="qDiagram" class="flex justify-center mb-6"></div>
                 </div>
 
-                <div id="options-list" class="space-y-4"></div>
+                <div id="options-list" class="space-y-3"></div>
 
-                <div class="mt-10 flex justify-between border-t pt-6">
-                    <button onclick="changeQ(-1)" class="px-8 py-3 bg-gray-200 rounded-lg font-bold hover:bg-gray-300 transition">Previous</button>
-                    <button onclick="changeQ(1)" class="px-8 py-3 bg-blue-700 text-white rounded-lg font-bold hover:bg-blue-800 transition">Next</button>
+                <div class="mt-8 flex justify-between border-t pt-6">
+                    <button onclick="changeQ(-1)" class="px-6 py-3 bg-gray-200 rounded-lg font-bold hover:bg-gray-300 transition text-sm md:text-base">Previous</button>
+                    <button onclick="changeQ(1)" class="px-6 py-3 bg-blue-700 text-white rounded-lg font-bold hover:bg-blue-800 transition text-sm md:text-base">Next</button>
                 </div>
             </div>
 
             <div class="lg:w-1/3 space-y-4">
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-                    <h3 class="font-bold text-gray-700 mb-4 border-b pb-2">Question Navigation</h3>
-                    <div id="nav-grid" class="grid grid-cols-5 md:grid-cols-8 lg:grid-cols-5 gap-2"></div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <h3 class="font-bold text-gray-700 mb-4 border-b pb-2 text-sm uppercase tracking-wide">Question Grid</h3>
+                    <div id="nav-grid" class="grid grid-cols-5 sm:grid-cols-10 lg:grid-cols-5 gap-2 p-1"></div>
                 </div>
                 <button onclick="handleManualSubmit()" class="w-full py-4 bg-green-600 text-white rounded-xl font-black text-xl hover:bg-green-700 transition shadow-xl">
                     FINISH & SUBMIT
@@ -90,115 +93,81 @@
         </main>
     </div>
 
+    <div id="results-page" class="hidden min-h-screen flex items-center justify-center p-4 bg-blue-900">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-lg w-full text-center">
+            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h2 class="text-3xl font-black text-gray-800 mb-2">Test Completed!</h2>
+            <p class="text-gray-500 mb-6">Your results are ready for download.</p>
+            
+            <div class="bg-gray-50 rounded-xl p-6 mb-8 border border-gray-100">
+                <div class="text-sm text-gray-400 uppercase font-bold tracking-widest mb-1">Final Score</div>
+                <div class="text-5xl font-black text-blue-700" id="final-score-display">0/40</div>
+                <div class="mt-2 text-lg font-bold text-gray-700" id="final-percent-display">0%</div>
+                <div id="status-tag" class="mt-4 inline-block px-3 py-1 rounded-full text-xs font-bold"></div>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <button onclick="downloadResultPDF()" class="w-full py-4 bg-blue-700 text-white rounded-xl font-bold text-lg hover:bg-blue-800 shadow-lg flex items-center justify-center gap-2">
+                    DOWNLOAD PERFORMANCE PDF
+                </button>
+                <button onclick="location.reload()" class="text-gray-400 hover:text-gray-600 font-medium text-sm">Exit Portal</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        /* --- CONFIGURATION --- */
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxaU1g2jL0Gk4B18AKN3OQGd3Kk0zgxx0h-D3iRW88C8IyyfIlkkgMhINORCIYEvXRF/exec"; 
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKEAfN7cy5Iyg2lg6ie8osabGxDhs81kC9_LZyBo7IXlEmZkw12GOwCnBtXVGudjDW/exec"; 
         const TEST_TIME_MINS = 40;
         
         const questions = [
-            {
-                q: "If $log_{10} 2 = 0.3010$ and $log_{10} 3 = 0.4771$, evaluate $log_{10} 4.5$.",
-                options: ["0.9542", "0.6532", "0.4771", "0.3010"],
-                correct: 1
-            },
-            {
-                q: "Simplify $\\frac{1}{\\sqrt{3} + \\sqrt{2}}$ by rationalizing the denominator.",
-                options: ["$\\sqrt{3} + \\sqrt{2}$", "$\\sqrt{3} - \\sqrt{2}$", "$\\frac{\\sqrt{3} - \\sqrt{2}}{2}$", "1"],
-                correct: 1
-            },
-            {
-                q: "Convert $72_8$ to a number in base 3.",
-                options: ["2010", "2100", "1111", "2022"],
-                correct: 0
-            },
-            {
-                q: "Find the amount on ₦4,000 for 2 years at 5% per annum compound interest.",
-                options: ["₦4,410", "₦4,400", "₦4,200", "₦4,500"],
-                correct: 0
-            },
-            {
-                q: "If $(x - 1)$ is a factor of $px^3 + qx^2 + 1 = 0$, find the relationship between $p$ and $q$.",
-                options: ["p + q = 1", "p + q = -1", "p - q = 1", "p = q"],
-                correct: 1
-            },
-            {
-                q: "Solve the inequality: $2x - 5 < 7$ and $3x + 2 > -4$.",
-                options: ["-2 < x < 6", "x < 6", "x > -2", "-6 < x < 2"],
-                correct: 0
-            },
-            {
-                q: "Find the 10th term of the A.P: 2, 5, 8, 11...",
-                options: ["27", "29", "30", "32"],
-                correct: 1
-            },
-            {
-                q: "If $y$ varies inversely as the square of $x$ and $y=4$ when $x=3$, find $y$ when $x=2$.",
-                options: ["9", "6", "12", "18"],
-                correct: 0
-            },
-            {
-                q: "Make $t$ the subject of the formula: $K = w \\sqrt{\\frac{t-r}{t}}$.",
-                options: ["$t = \\frac{wr}{w^2 - K^2}$", "$t = \\frac{w^2r}{w^2 - K^2}$", "$t = \\frac{Kr}{w-K}$", "$t = \\frac{r}{w-K}$"],
-                correct: 1
-            },
-            {
-                q: "In the diagram, O is the center of the circle. If $\\angle PQR = 75^{\\circ}$, find the interior $\\angle POR$.",
-                options: ["150°", "100°", "75°", "37.5°"],
-                correct: 0,
-                diagram: "[Circle Geometry Diagram Placeholder]"
-            },
-            {
-                q: "Calculate the total surface area of a cylinder of height 10cm and radius 7cm. (Take $\\pi = 22/7$)",
-                options: ["440 cm²", "748 cm²", "308 cm²", "154 cm²"],
-                correct: 1
-            },
-            {
-                q: "The sum of the interior angles of a regular polygon is 1080°. Find the number of sides.",
-                options: ["6", "7", "8", "10"],
-                correct: 2
-            },
-            {
-                q: "Find the gradient of the line joining the points (2, -3) and (-1, 4).",
-                options: ["-7/3", "7/3", "-3/7", "3/7"],
-                correct: 0
-            },
-            {
-                q: "If $\\cos \\theta = 4/5$ and $\\theta$ is acute, find $\\tan \\theta$.",
-                options: ["3/4", "3/5", "5/4", "4/3"],
-                correct: 0
-            },
-            {
-                q: "A ladder 6m long leans against a vertical wall. If it makes an angle of 60° with the floor, how high is the wall?",
-                options: ["3m", "3√3 m", "6√3 m", "4m"],
-                correct: 1,
-                diagram: "[Trigonometry Ladder Diagram Placeholder]"
-            },
-            {
-                q: "Differentiate $y = (2x + 3)^4$ with respect to $x$.",
-                options: ["$4(2x+3)^3$", "$8(2x+3)^3$", "$2(2x+3)^3$", "8x+12"],
-                correct: 1
-            },
-            {
-                q: "Evaluate $\\int_1^2 (3x^2 - 2x) dx$.",
-                options: ["2", "4", "6", "8"],
-                correct: 1
-            },
-            {
-                q: "Find the mean deviation of the sets of numbers: 10, 12, 14, 16, 18.",
-                options: ["2.4", "0", "14", "3.2"],
-                correct: 0
-            },
-            {
-                q: "Two fair dice are thrown once. What is the probability of getting a total score of 7?",
-                options: ["1/12", "1/6", "5/36", "1/4"],
-                correct: 1
-            },
-            {
-                q: "In a class of 50 students, 30 study Biology and 25 study Physics. If each student studies at least one subject, how many study both?",
-                options: ["5", "10", "15", "20"],
-                correct: 0
-            }
-            // Note: You can add 20 more here.
+            // 1-10
+            { q: "Evaluate $(111_2 + 101_2) - 100_2$.", options: ["110", "1000", "1010", "100"], correct: 0 },
+            { q: "If $log_{10} x = 2$, find the value of $x$.", options: ["20", "10", "100", "0.02"], correct: 2 },
+            { q: "Simplify: $\\sqrt{98} - \\sqrt{50}$.", options: ["$2\\sqrt{2}$", "$3\\sqrt{2}$", "$4\\sqrt{2}$", "$12\\sqrt{2}$"], correct: 0 },
+            { q: "A man bought a shirt for ₦2,000 and sold it for ₦2,500. Calculate his percentage profit.", options: ["20%", "25%", "30%", "50%"], correct: 1 },
+            { q: "Solve for $x$ in the equation: $2^{x+1} = 32$.", options: ["3", "4", "5", "6"], correct: 1 },
+            { q: "Find the range of values of $x$ for which $3x - 2 > 10$.", options: ["x > 3", "x < 4", "x > 4", "x < 3"], correct: 2 },
+            { q: "If $y$ varies directly as $x$, and $y=6$ when $x=3$, find $y$ when $x=10$.", options: ["15", "20", "18", "12"], correct: 1 },
+            { q: "The sum of the interior angles of a pentagon is:", options: ["360°", "540°", "720°", "180°"], correct: 1 },
+            { q: "Find the 5th term of the sequence: 3, 9, 27...", options: ["81", "243", "108", "150"], correct: 1 },
+            { q: "Calculate the area of a circle with a radius of 7cm. (Take $\\pi = 22/7$)", options: ["44 cm²", "154 cm²", "308 cm²", "77 cm²"], correct: 1 },
+            // 11-20
+            { q: "If $\\sin \\theta = 3/5$, find $\\cos \\theta$ (where $\\theta$ is acute).", options: ["4/5", "1/2", "3/4", "5/3"], correct: 0 },
+            { q: "Factorize completely: $x^2 - 5x + 6$.", options: ["(x-1)(x-6)", "(x-2)(x-3)", "(x+2)(x+3)", "(x-5)(x+1)"], correct: 1 },
+            { q: "Find the gradient (slope) of the line passing through (1, 2) and (3, 8).", options: ["2", "3", "4", "5"], correct: 2 },
+            { q: "In a class of 40 students, 25 study Maths and 15 study Physics. If 10 study both, how many study neither?", options: ["5", "10", "15", "0"], correct: 1 },
+            { q: "Differentiate $y = 3x^2 + 2x + 1$ with respect to $x$.", options: ["6x + 2", "3x + 2", "6x", "5x"], correct: 0 },
+            { q: "Evaluate the integral: $\\int_0^1 4x^3 dx$.", options: ["1", "2", "3", "4"], correct: 0 },
+            { q: "Find the mean of the numbers: 10, 15, 20, 25, 30.", options: ["15", "20", "25", "100"], correct: 1 },
+            { q: "A bag contains 3 red balls and 5 blue balls. If a ball is picked at random, what is the probability it is red?", options: ["3/5", "5/8", "3/8", "1/2"], correct: 2 },
+            { q: "The exterior angle of a regular polygon is 40°. How many sides has the polygon?", options: ["8", "9", "10", "12"], correct: 1 },
+            { q: "Find the simple interest on ₦10,000 for 3 years at 2% per annum.", options: ["₦200", "₦400", "₦600", "₦1,000"], correct: 2 },
+            // 21-30
+            { q: "Convert $10110_2$ to base ten.", options: ["20", "22", "24", "26"], correct: 1 },
+            { q: "If $3^x = 1/9$, find $x$.", options: ["2", "-2", "3", "-3"], correct: 1 },
+            { q: "Simplify $\\frac{2}{3} + \\frac{1}{4} - \\frac{1}{2}$.", options: ["5/12", "7/12", "1/4", "1/3"], correct: 0 },
+            { q: "Find the median of: 2, 8, 5, 10, 7.", options: ["5", "7", "8", "6"], correct: 1 },
+            { q: "Make $a$ the subject of formula: $v = u + at$.", options: ["$a = v-u-t$", "$a = \\frac{v-u}{t}$", "$a = vt-u$", "$a = v+u/t$"], correct: 1 },
+            { q: "The ratio of two numbers is 3:5. If the smaller is 12, find the larger.", options: ["15", "18", "20", "24"], correct: 2 },
+            { q: "Evaluate $0.0003 \times 0.02$ in standard form.", options: ["$6 \times 10^{-6}$", "$6 \times 10^{-5}$", "$6 \times 10^{-4}$", "$0.6 \times 10^{-5}$"], correct: 0 },
+            { q: "Find the volume of a cube whose side is 4cm.", options: ["16 cm³", "32 cm³", "64 cm³", "12 cm³"], correct: 2 },
+            { q: "If $f(x) = 2x - 3$, find $f(4)$.", options: ["5", "8", "11", "1"], correct: 0 },
+            { q: "Find the HCF of 12, 18 and 24.", options: ["2", "3", "6", "12"], correct: 2 },
+            // 31-40
+            { q: "Solve for $y$: $2y + 5 = 17$.", options: ["5", "6", "7", "11"], correct: 1 },
+            { q: "A map is drawn to a scale of 1:20,000. Find the actual distance if the map distance is 5cm.", options: ["1km", "10km", "100m", "500m"], correct: 0 },
+            { q: "Find the LCM of 4, 6 and 10.", options: ["20", "30", "60", "120"], correct: 2 },
+            { q: "In a right-angled triangle, the two shorter sides are 6cm and 8cm. Find the hypotenuse.", options: ["10cm", "12cm", "14cm", "15cm"], correct: 0 },
+            { q: "If 20% of a number is 40, what is the number?", options: ["80", "160", "200", "400"], correct: 2 },
+            { q: "Calculate the circumference of a circle with diameter 14cm. ($\pi=22/7$)", options: ["22cm", "44cm", "88cm", "154cm"], correct: 1 },
+            { q: "Solve: $x/2 + 3 = 7$.", options: ["2", "4", "8", "10"], correct: 2 },
+            { q: "A die is rolled once. What is the probability of getting an even number?", options: ["1/6", "1/3", "1/2", "2/3"], correct: 2 },
+            { q: "Expand $(x+2)(x-2)$.", options: ["$x^2+4$", "$x^2-4$", "$x^2-4x+4$", "$x^2+4x+4$"], correct: 1 },
+            { q: "If 3 men dig a trench in 4 hours, how long will it take 2 men?", options: ["2 hrs", "5 hrs", "6 hrs", "8 hrs"], correct: 2 }
         ];
 
         let currentIdx = 0;
@@ -206,16 +175,16 @@
         let userAnswers = new Array(questions.length).fill(null);
         let userData = {};
         let isSubmitted = false;
+        let finalCalculatedScore = 0;
 
-        // 1. Tab Security
         document.addEventListener("visibilitychange", () => {
             if (document.hidden && !isSubmitted) {
-                alert("SECURITY ALERT: Tab switching detected. Automatic submission triggered.");
+                isSubmitted = true;
+                alert("🔴 SECURITY VIOLATION: Tab switch detected. Automatic submission triggered.");
                 submitTest("Security Violation");
             }
         });
 
-        // 2. Registration
         document.getElementById('regForm').addEventListener('submit', (e) => {
             e.preventDefault();
             userData = {
@@ -223,7 +192,7 @@
                 number: document.getElementById('userPhone').value,
                 email: document.getElementById('userEmail').value
             };
-            document.getElementById('displayStudent').innerText = `Student: ${userData.name}`;
+            document.getElementById('displayStudent').innerText = `Candidate: ${userData.name}`;
             document.getElementById('landing-page').classList.add('hidden');
             document.getElementById('exam-page').classList.remove('hidden');
             startTimer();
@@ -231,10 +200,10 @@
             renderNav();
         });
 
-        // 3. Timer
         function startTimer() {
             const timerEl = document.getElementById('timer');
             const countdown = setInterval(() => {
+                if (isSubmitted) { clearInterval(countdown); return; }
                 let mins = Math.floor(timeLeft / 60);
                 let secs = timeLeft % 60;
                 timerEl.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
@@ -246,27 +215,22 @@
             }, 1000);
         }
 
-        // 4. CBT Rendering
         function renderQuestion() {
             const q = questions[currentIdx];
             document.getElementById('qNumDisplay').innerText = currentIdx + 1;
-            document.getElementById('qText').innerHTML = q.q; // Changed to innerHTML for MathJax
-            
-            const diagDiv = document.getElementById('qDiagram');
-            diagDiv.innerHTML = q.diagram ? `<div class="p-4 border-2 border-dashed rounded bg-gray-50 text-sm italic text-gray-500">${q.diagram}</div>` : '';
+            document.getElementById('qText').innerHTML = q.q;
+            document.getElementById('qDiagram').innerHTML = q.diagram ? `<div class="p-4 border-2 border-dashed rounded bg-gray-50 text-xs italic text-gray-500">${q.diagram}</div>` : '';
 
             const list = document.getElementById('options-list');
             list.innerHTML = '';
             q.options.forEach((opt, i) => {
                 const isSelected = userAnswers[currentIdx] === i;
                 const btn = document.createElement('button');
-                btn.className = `w-full text-left p-4 border-2 rounded-xl transition font-medium flex items-center gap-4 ${isSelected ? 'border-blue-600 bg-blue-50 text-blue-800' : 'border-gray-100 hover:border-blue-200'}`;
-                btn.innerHTML = `<span class="w-8 h-8 flex items-center justify-center rounded-full bg-white border font-bold">${String.fromCharCode(65+i)}</span> ${opt}`;
+                btn.className = `w-full text-left p-3 md:p-4 border-2 rounded-xl transition flex items-center gap-3 ${isSelected ? 'border-blue-600 bg-blue-50 text-blue-800' : 'border-gray-100 hover:border-blue-200 bg-white'}`;
+                btn.innerHTML = `<span class="w-6 h-6 md:w-8 md:h-8 shrink-0 flex items-center justify-center rounded-full bg-white border font-bold text-xs md:text-sm">${String.fromCharCode(65+i)}</span> <span class="text-sm md:text-base">${opt}</span>`;
                 btn.onclick = () => { userAnswers[currentIdx] = i; renderQuestion(); renderNav(); };
                 list.appendChild(btn);
             });
-
-            // Re-render MathJax for the new question content
             if (window.MathJax) MathJax.typeset();
         }
 
@@ -276,7 +240,7 @@
             questions.forEach((_, i) => {
                 const btn = document.createElement('button');
                 btn.innerText = i + 1;
-                btn.className = `h-10 w-full rounded font-bold text-sm transition ${currentIdx === i ? 'active-q' : ''} ${userAnswers[i] !== null ? 'answered-q' : 'bg-gray-100'}`;
+                btn.className = `h-9 w-full rounded font-bold text-xs transition ${currentIdx === i ? 'active-q' : ''} ${userAnswers[i] !== null ? 'answered-q' : 'bg-gray-100'}`;
                 btn.onclick = () => { currentIdx = i; renderQuestion(); };
                 grid.appendChild(btn);
             });
@@ -291,62 +255,60 @@
             }
         }
 
-        // 5. Submission & PDF
         function handleManualSubmit() {
-            if (confirm("Are you sure you want to end the test?")) submitTest("Manual");
+            if (confirm("End the test and view results?")) submitTest("Manual");
         }
 
         async function submitTest(type = "Manual") {
-            if (isSubmitted) return;
             isSubmitted = true;
-
             let score = 0;
-            userAnswers.forEach((ans, i) => {
-                if (ans === questions[i].correct) score++;
-            });
+            userAnswers.forEach((ans, i) => { if (ans === questions[i].correct) score++; });
+            finalCalculatedScore = score;
 
-            // 1. Sync to Google Sheets with added Submission Status
+            document.getElementById('final-score-display').innerText = `${score} / ${questions.length}`;
+            document.getElementById('final-percent-display').innerText = ((score/questions.length)*100).toFixed(1) + "%";
+            
+            const statusTag = document.getElementById('status-tag');
+            statusTag.innerText = `Submission: ${type}`;
+            statusTag.className = type === "Manual" ? "mt-4 inline-block px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700" : "mt-4 inline-block px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700";
+
+            document.getElementById('exam-page').classList.add('hidden');
+            document.getElementById('results-page').classList.remove('hidden');
+
             fetch(WEB_APP_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 body: JSON.stringify({ ...userData, score: score, submissionType: type })
             }).catch(e => console.error("Sheet Sync Error"));
-
-            // 2. Generate PDF
-            generatePDF(score);
-
-            alert(`Test Submitted Successfully via ${type}!\nYour Score: ${score}/${questions.length}\nYour PDF result is downloading...`);
-            location.reload();
         }
 
-        async function generatePDF(score) {
+        function downloadResultPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
             doc.setFontSize(22);
             doc.setTextColor(29, 78, 216);
-            doc.text("D-Maths Live Result Sheet", 105, 20, { align: "center" });
-
-            doc.setFontSize(12);
-            doc.setTextColor(0,0,0);
-            doc.text(`Candidate: ${userData.name}`, 20, 40);
-            doc.text(`Score: ${score} / ${questions.length}`, 20, 50);
+            doc.text("D-Maths Live Performance Analysis", 105, 20, { align: "center" });
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text(`Candidate: ${userData.name.toUpperCase()}`, 20, 35);
+            doc.text(`Final Score: ${finalCalculatedScore} / ${questions.length}`, 20, 42);
             
             const rows = questions.map((q, i) => [
                 i + 1,
-                userAnswers[i] !== null ? String.fromCharCode(65 + userAnswers[i]) : "-",
+                userAnswers[i] !== null ? String.fromCharCode(65 + userAnswers[i]) : "Skipped",
                 String.fromCharCode(65 + q.correct),
                 userAnswers[i] === q.correct ? "CORRECT" : "WRONG"
             ]);
 
             doc.autoTable({
-                head: [['Qtn', 'Your Answer', 'Correct', 'Status']],
+                head: [['#', 'Chosen', 'Correct', 'Result']],
                 body: rows,
-                startY: 60,
-                headStyles: { fillColor: [29, 78, 216] }
+                startY: 50,
+                theme: 'striped',
+                headStyles: { fillColor: [29, 78, 216] },
+                styles: { fontSize: 8 }
             });
-
-            doc.save(`Result_${userData.name}.pdf`);
+            doc.save(`Analysis_${userData.name}.pdf`);
         }
     </script>
 </body>
