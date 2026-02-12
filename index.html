@@ -116,7 +116,7 @@
                 <button onclick="downloadResultPDF()" class="w-full py-4 bg-blue-700 text-white rounded-xl font-bold text-lg hover:bg-blue-800 shadow-lg flex items-center justify-center gap-2 transition active:scale-95">
                     DOWNLOAD PERFORMANCE PDF
                 </button>
-                <button onclick="location.reload()" class="text-gray-400 hover:text-gray-600 font-medium text-sm">Exit Portal</button>
+                <button onclick="exitExam()" class="text-gray-400 hover:text-gray-600 font-medium text-sm">Exit Portal</button>
             </div>
         </div>
     </div>
@@ -175,15 +175,16 @@
         let isSubmitted = false;
         let finalCalculatedScore = 0;
 
-        // RETAKE PREVENTION CHECK
+        // UPDATED RETAKE PREVENTION (SESSION BASED)
         window.onload = () => {
-            if (localStorage.getItem('examCompleted')) {
+            const hasFinished = sessionStorage.getItem('examSessionActive') === 'finished';
+            if (hasFinished) {
                 document.body.innerHTML = `
                     <div class="min-h-screen flex items-center justify-center bg-gray-100 p-6">
                         <div class="bg-white p-8 rounded-xl shadow-lg text-center max-w-md animate__animated animate__fadeIn">
                             <h2 class="text-2xl font-bold text-red-600 mb-4">Access Denied</h2>
-                            <p class="text-gray-600 mb-6">You have already completed this examination. Retakes are not allowed.</p>
-                            <button onclick="localStorage.clear(); location.reload();" class="text-xs text-gray-400 hover:underline">Admin: Reset Lock</button>
+                            <p class="text-gray-600 mb-6">You have completed your session. To retry (if permitted), clear your browser history/cache or use a private window.</p>
+                            <button onclick="sessionStorage.clear(); location.reload();" class="bg-blue-600 text-white px-4 py-2 rounded">Refresh Portal</button>
                         </div>
                     </div>`;
             }
@@ -230,8 +231,6 @@
         function renderQuestion() {
             const q = questions[currentIdx];
             const qDisplay = document.getElementById('qText');
-            
-            // Re-trigger animation
             qDisplay.classList.remove('animate__fadeInRight');
             void qDisplay.offsetWidth; 
             qDisplay.classList.add('animate__fadeInRight');
@@ -280,8 +279,7 @@
 
         async function submitTest(type = "Manual") {
             isSubmitted = true;
-            // LOCK THE EXAM FOR THIS BROWSER
-            localStorage.setItem('examCompleted', 'true');
+            sessionStorage.setItem('examSessionActive', 'finished');
 
             let score = 0;
             userAnswers.forEach((ans, i) => { if (ans === questions[i].correct) score++; });
@@ -294,44 +292,4 @@
             statusTag.innerText = `Submission: ${type}`;
             statusTag.className = type === "Manual" ? "mt-4 inline-block px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700" : "mt-4 inline-block px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700";
 
-            document.getElementById('exam-page').classList.add('hidden');
-            document.getElementById('results-page').classList.remove('hidden');
-
-            fetch(WEB_APP_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({ ...userData, score: score, submissionType: type })
-            }).catch(e => console.error("Sheet Sync Error"));
-        }
-
-        function downloadResultPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.setFontSize(22);
-            doc.setTextColor(29, 78, 216);
-            doc.text("D-Maths Live Performance Analysis", 105, 20, { align: "center" });
-            doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text(`Candidate: ${userData.name.toUpperCase()}`, 20, 35);
-            doc.text(`Final Score: ${finalCalculatedScore} / ${questions.length}`, 20, 42);
-            
-            const rows = questions.map((q, i) => [
-                i + 1,
-                userAnswers[i] !== null ? String.fromCharCode(65 + userAnswers[i]) : "Skipped",
-                String.fromCharCode(65 + q.correct),
-                userAnswers[i] === q.correct ? "CORRECT" : "WRONG"
-            ]);
-
-            doc.autoTable({
-                head: [['#', 'Chosen', 'Correct', 'Result']],
-                body: rows,
-                startY: 50,
-                theme: 'striped',
-                headStyles: { fillColor: [29, 78, 216] },
-                styles: { fontSize: 8 }
-            });
-            doc.save(`Analysis_${userData.name}.pdf`);
-        }
-    </script>
-</body>
-</html>
+            document.getElementById('exa
