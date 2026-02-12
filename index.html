@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -292,4 +292,49 @@
             statusTag.innerText = `Submission: ${type}`;
             statusTag.className = type === "Manual" ? "mt-4 inline-block px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700" : "mt-4 inline-block px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700";
 
-            document.getElementById('exa
+            document.getElementById('exam-page').classList.add('hidden');
+            document.getElementById('results-page').classList.remove('hidden');
+
+            fetch(WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({ ...userData, score: score, submissionType: type })
+            }).catch(e => console.error("Sheet Sync Error"));
+        }
+
+        function exitExam() {
+            sessionStorage.clear();
+            location.reload();
+        }
+
+        function downloadResultPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFontSize(22);
+            doc.setTextColor(29, 78, 216);
+            doc.text("D-Maths Live Performance Analysis", 105, 20, { align: "center" });
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text(`Candidate: ${userData.name.toUpperCase()}`, 20, 35);
+            doc.text(`Final Score: ${finalCalculatedScore} / ${questions.length}`, 20, 42);
+            
+            const rows = questions.map((q, i) => [
+                i + 1,
+                userAnswers[i] !== null ? String.fromCharCode(65 + userAnswers[i]) : "Skipped",
+                String.fromCharCode(65 + q.correct),
+                userAnswers[i] === q.correct ? "CORRECT" : "WRONG"
+            ]);
+
+            doc.autoTable({
+                head: [['#', 'Chosen', 'Correct', 'Result']],
+                body: rows,
+                startY: 50,
+                theme: 'striped',
+                headStyles: { fillColor: [29, 78, 216] },
+                styles: { fontSize: 8 }
+            });
+            doc.save(`Analysis_${userData.name}.pdf`);
+        }
+    </script>
+</body>
+</html>
